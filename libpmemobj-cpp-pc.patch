@@ -1,0 +1,10 @@
+--- libpmemobj-cpp-1.5/CMakeLists.txt.orig	2018-10-26 17:55:27.000000000 +0200
++++ libpmemobj-cpp-1.5/CMakeLists.txt	2018-12-16 08:01:04.654705414 +0100
+@@ -217,7 +217,6 @@
+ 		${CMAKE_CURRENT_BINARY_DIR}/libpmemobj++.pc @ONLY)
+ 
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpmemobj++.pc
+-	CONFIGURATIONS Release Debug
+ 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ 
+ configure_file(
