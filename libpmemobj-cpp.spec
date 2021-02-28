@@ -49,9 +49,7 @@ Summary:	API documentation for libpmemobj++ library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libpmemobj++
 Group:		Documentation
 Obsoletes:	pmdk-c++-apidocs < 1.5
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 API documentation for libpmemobj++ library.
