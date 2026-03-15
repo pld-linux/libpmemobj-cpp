@@ -1,0 +1,35 @@
+Implement get_allocator() for concurrent_skip_list.
+
+Upstream removed get_allocator() in PR #825 due to issue #827 (type
+mismatch), leaving a XXX comment. However, the method is still called
+internally in the move constructor (line 713), causing a build failure
+with GCC's -Wtemplate-body.
+
+The fix constructs allocator_type from _node_allocator via allocator
+rebind construction, which is guaranteed by the C++ Allocator
+requirements (allocators are inter-convertible between rebind types).
+This is valid because _node_allocator is itself constructed from
+allocator_type (lines 556, 589, 648, 707).
+
+See: https://github.com/pmem/libpmemobj-cpp/issues/827
+
+--- libpmemobj-cpp-1.13.0/include/libpmemobj++/container/detail/concurrent_skip_list_impl.hpp.orig	2021-07-27 00:00:00.000000000 +0100
++++ libpmemobj-cpp-1.13.0/include/libpmemobj++/container/detail/concurrent_skip_list_impl.hpp	2021-07-27 00:00:00.000000000 +0100
+@@ -2114,9 +2114,15 @@
+ 	}
+
+ 	/**
+-	 * XXX: Implement get_allocator() interface.
+-	 * Related with: https://github.com/pmem/libpmemobj-cpp/issues/827
++	 * Returns the allocator associated with the container.
++	 *
++	 * @return allocator_type object used by this container.
+ 	 */
++	allocator_type
++	get_allocator() const
++	{
++		return allocator_type(_node_allocator);
++	}
+
+ 	/**
+ 	 * Exchanges the contents of the container with those of other

@@ -5,23 +5,24 @@
 Summary:	C++ bindings for PMDK libpmemobj library
 Summary(pl.UTF-8):	Wiązania C++ do biblioteki PMDK libpmemobj
 Name:		libpmemobj-cpp
-Version:	1.5
+Version:	1.13.0
 Release:	1
 License:	BSD
 Group:		Applications/System
 #Source0Download: https://github.com/pmem/libpmemobj-cpp/releases
 Source0:	https://github.com/pmem/libpmemobj-cpp/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	149690b32bfab0668413a532f709dbf2
-Patch0:		%{name}-pc.patch
+# Source0-md5:	2c1829e984de4a369fd2bbdadccc893d
+Patch0:		%{name}-get_allocator.patch
 URL:		http://pmem.io/pmdk/cpp_obj/
 BuildRequires:	cmake >= 3.3
 %{?with_apidocs:BuildRequires:	doxygen}
-BuildRequires:	pmdk-devel >= 1.4
-BuildRequires:	libstdc++-devel >= 6:4.8
+BuildRequires:	pmdk-devel >= 1.9
+BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	perl-base >= 1:5.16
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.605
 ExclusiveArch:	%{x8664} aarch64
+%define		_enable_debug_packages	0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -34,8 +35,8 @@ Wiązania C++ do biblioteki PMDK libpmemobj.
 Summary:	C++ bindings for PMDK libpmemobj library
 Summary(pl.UTF-8):	Wiązania C++ do biblioteki PMDK libpmemobj
 Group:		Development/Libraries
-Requires:	pmdk-devel >= 1.4
-Requires:	libstdc++-devel >= 6:4.8
+Requires:	pmdk-devel >= 1.9
+Requires:	libstdc++-devel >= 6:5
 Obsoletes:	pmdk-c++-devel < 1.5
 
 %description devel
@@ -66,7 +67,10 @@ install -d build
 cd build
 # .pc file creation expects CMAKE_INSTALL_{INCLUDE,LIB}DIR relative to CMAKE_INSTALL_PREFIX
 %cmake .. \
+	-DBUILD_BENCHMARKS=OFF \
 	%{!?with_apidocs:-DBUILD_DOC=OFF} \
+	-DBUILD_EXAMPLES=OFF \
+	-DBUILD_TESTS=OFF \
 	-DCMAKE_INSTALL_DOCDIR=%{_docdir}/libpmemobj-cpp \
 	-DCMAKE_INSTALL_INCLUDEDIR=include \
 	-DCMAKE_INSTALL_LIBDIR=%{_lib}
