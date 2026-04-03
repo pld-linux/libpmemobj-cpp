@@ -6,7 +6,7 @@ Summary:	C++ bindings for PMDK libpmemobj library
 Summary(pl.UTF-8):	Wiązania C++ do biblioteki PMDK libpmemobj
 Name:		libpmemobj-cpp
 Version:	1.13.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		Applications/System
 #Source0Download: https://github.com/pmem/libpmemobj-cpp/releases
